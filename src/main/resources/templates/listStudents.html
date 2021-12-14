@@ -1,0 +1,78 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Add new Student to Course</title>
+    <style type = "text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding:3px 2px;
+        }
+        section {
+            float: left;
+            margin: 0 1.5%;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            margin: 0 1.5%;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Student Enrollment - Select the Student </h1>
+</header>
+<section>
+    <h1 th:if="${hasError}" th:text="${errorMessage}"></h1>
+    <form th:action="@{/StudentEnrollmentSummary}" th:method="POST">
+        <h2>Select the student to enroll:</h2>
+        <a th:href="@{/createStudent}" type="button">Create New Student</a> <br/> <br/>
+        <input type="radio" name="student" th:if="${listStudents}"
+               th:each="student:${listStudents}" th:value="${student.getUsername()}"
+               th:text="${student.getName()} +' '+${student.getSurname()}">
+        <br/>
+        <label for="grade">Select grade:</label>
+        <select name="grades" id="grade">
+            <option value="A">A</option>
+            <option value="A">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+        </select>
+        <label for="time">Select time:</label>
+        <input name="time" id="time" type="datetime-local"/>
+        <input type="submit" value="Submit">
+    </form>
+    <form th:action="@{/addStudent}" th:method="POST">
+        <label for="searchBar">Search students:</label>
+        <input id="searchBar" type="text" name="keyword" placeholder="Search.."/>
+        <input type="submit" value="Submit">
+    </form>
+    <br>
+    <br>
+</section>
+<aside>
+    <table>
+        <tr>
+            <th colspan="2">
+                Your Enrollment Status
+            </th>
+        </tr>
+        <tr>
+            <td><b>Course Id</b></td>
+            <td th:text="${courseId}"></td>
+        </tr>
+    </table>
+</aside>
+
+</body>
+</html>
