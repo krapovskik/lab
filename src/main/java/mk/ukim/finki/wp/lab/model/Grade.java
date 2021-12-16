@@ -1,6 +1,8 @@
 package mk.ukim.finki.wp.lab.model;
 
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,6 +21,7 @@ public class Grade {
     private Student student;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Course course;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

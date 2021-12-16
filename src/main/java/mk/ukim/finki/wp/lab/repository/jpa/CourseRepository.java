@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long> {
     void deleteByCourseId(Long Id);
-    List<Course> findAllByNameContainingOrDescriptionContaining(String name,String description);
+    List<Course> findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name,String description);
 
 }

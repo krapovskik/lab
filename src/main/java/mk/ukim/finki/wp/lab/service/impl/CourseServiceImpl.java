@@ -85,6 +85,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> findAll(String text) {
-        return courseRepository.findAllByNameContainingOrDescriptionContaining(text,text);
+        return courseRepository.findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(text,text);
     }
 }
