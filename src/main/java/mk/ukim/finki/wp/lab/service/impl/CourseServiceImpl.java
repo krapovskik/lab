@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
     private final GradeRepository gradeRepository;
+    private final CourseRepository courseRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, StudentRepository studentRepository, TeacherRepository teacherRepository, GradeRepository gradeRepository) {
-        this.courseRepository = courseRepository;
+    public CourseServiceImpl(StudentRepository studentRepository, TeacherRepository teacherRepository, GradeRepository gradeRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.gradeRepository = gradeRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -42,6 +42,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course addStudentInCourse(String username, Long courseId) {
         Course course = this.courseRepository.findById(courseId).orElseThrow(CourseNotFoundException::new);
+
         Student student = this.studentRepository.findByUsername(username).orElseThrow(StudentNotFoundException::new);
         if(course.getStudents().contains(student))
             throw new AlreadyInCourseException();
@@ -85,6 +86,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<Course> findAll(String text) {
-        return courseRepository.findAllByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(text,text);
+        return courseRepository.allCoursesByFilter(text).stream().distinct().collect(Collectors.toList());
     }
 }
